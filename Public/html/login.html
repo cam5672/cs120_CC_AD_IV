@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Investment App</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+    <div class="split-layout">
+        <!-- Left Section -->
+        <div class="left-section">
+            <h1>Investment App</h1>
+            <p>Your trusted platform for managing investments.</p>
+        </div>
+
+        <!-- Right Section (Login Box) -->
+        <div class="right-section">
+            <div class="login-box">
+                <h2>Login</h2>
+                <form action="/login" method="POST">
+                    <div class="input-group">
+                        <input type="text" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" name="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <p>Don't have an account? <a href="register.html">Register here</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

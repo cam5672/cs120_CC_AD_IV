@@ -1,0 +1,135 @@
+@import url('base.css'); /* Import shared base styles */
+
+/* Split Layout */
+.split-layout {
+    display: flex;
+    width: 100%;
+    height: 100vh; /* Ensure full height of the viewport */
+    overflow: hidden; /* Prevent scrolling issues */
+}
+
+/* Left Section */
+.left-section {
+    flex: 1;
+    background: linear-gradient(135deg, #3b5998, #1e5799);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    height: 100%;
+}
+
+.left-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.left-section p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+.left-section a {
+    margin-top: 2rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.left-section a:hover {
+    text-decoration: underline;
+}
+
+/* Right Section */
+.right-section {
+    flex: 1;
+    background: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    height: 100%; /* Ensure it stretches fully */
+}
+
+/* Fullscreen Register Box */
+.register-box {
+    width: 100%; /* Fill most of the right section */
+    max-width: 600px; /* Limit the maximum width */
+    padding: 3rem;
+    background: white;
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Align items in a column */
+    justify-content: space-between; /* Space out elements evenly */
+    text-align: center;
+    overflow: visible; /* Ensure all content is visible */
+}
+
+/* Form Header */
+.register-box h2 {
+    font-size: 2rem;
+    color: #444;
+    margin-top: 2rem;
+}
+
+/* Input Group Spacing */
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #007bff;
+}
+
+/* Checkbox Group */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.checkbox-group input {
+    margin-right: 0.5rem;
+}
+
+.checkbox-group label a {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.checkbox-group label a:hover {
+    text-decoration: underline;
+}
+
+/* Submit Button */
+button {
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Login Link */
+.register-box p {
+    margin-top: 2rem;
+    font-size: 1rem;
+}
+
+.register-box p a {
+    font-weight: bold;
+    color: #007bff;
+}
