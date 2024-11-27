@@ -1,72 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio | Investment App</title>
-    <link rel="stylesheet" href="../css/portfolio.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio | Investment App</title>
+  <link rel="stylesheet" href="../css/portfolio.css">
 </head>
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <a href="#" class="logo">Investment App</a>
-        <div class="nav-links">
-            <a href="home.html">Home</a>
-            <a href="portfolio.html" class="active">My Portfolio</a>
-            <a href="notifications.html">Notifications</a>
-            <a href="trending.html">Trending</a>
-            <a href="market.html">Market</a>
-            <a href="about.html">About</a>
-            <div class="auth-links">
-                <a href="logout.html">Logout</a>
-            </div>
-        </div>
-    </nav>
+<body onload="loadPortfolioSummary(); loadPortfolio(); loadWatchlist(); loadRecentTransactions();">
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="#" class="logo">Investment App</a>
+    <div class="nav-links">
+      <a href="home.html">Home</a>
+      <a href="portfolio.html">My Portfolio</a>
+      <a href="notifications.html">Notifications</a>
+      <a href="trending.html">Trending</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+  </nav>
 
-    <!-- Header Section -->
-    <header>
-        <h1>My Portfolio</h1>
-        <p>Track and manage your stock investments easily.</p>
-    </header>
+  <!-- Header Section -->
+  <header class="portfolio-header">
+    <h1>My Portfolio</h1>
+    <p>Manage your investments: Buy, sell, and track your performance.</p>
+  </header>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Add Stock Button -->
-        <button class="add-stock-btn">Add Stock</button>
+  <!-- Portfolio Summary -->
+  <div id="portfolio-summary" class="summary-container">
+    <h2>Portfolio Summary</h2>
+    <p>Total Portfolio Value: $<span id="totalValue">0</span></p>
+    <p>Daily Profit/Loss: $<span id="dailyProfit">0</span></p>
+    <p>Overall Percentage Change: <span id="percentageChange">0</span>%</p>
+  </div>
 
-        <!-- Portfolio Table -->
-        <table class="portfolio-table">
-            <thead>
-                <tr>
-                    <th>Stock Symbol</th>
-                    <th>Shares</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>AAPL</td>
-                    <td>50</td>
-                    <td>
-                        <button class="edit-btn">Edit</button>
-                        <button class="delete-btn">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>TSLA</td>
-                    <td>20</td>
-                    <td>
-                        <button class="edit-btn">Edit</button>
-                        <button class="delete-btn">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </main>
+  <!-- Watchlist -->
+  <div id="watchlist" class="watchlist-container">
+    <h2>Watchlist</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Stock Symbol</th>
+          <th>Current Price</th>
+          <th>Daily Change (%)</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="watchlistTable"></tbody>
+    </table>
+  </div>
 
-    <!-- Footer -->
-    <footer>
-        © 2024 Investment App
-    </footer>
+  <!-- Portfolio Table -->
+  <div class="portfolio-container">
+    <button onclick="showAddStockForm()">Add Stock</button>
+    <div id="addStockForm" style="display: none;">
+      <input type="text" id="stockSymbol" placeholder="Stock Symbol">
+      <input type="number" id="shares" placeholder="Number of Shares">
+      <input type="number" id="purchasePrice" placeholder="Purchase Price">
+      <input type="date" id="purchaseDate" placeholder="Purchase Date">
+      <button onclick="buyStock()">Add to Portfolio</button>
+    </div>
+    <table id="portfolioTable">
+      <thead>
+        <tr>
+          <th>Stock Symbol</th>
+          <th>Shares</th>
+          <th>Purchase Price</th>
+          <th>Current Price</th>
+          <th>Return</th>
+          <th>Purchase Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Portfolio items will be loaded here dynamically -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Recent Transactions -->
+  <!-- Recent Transactions -->
+<section class="recent-transactions-container">
+  <h2>Recent Transactions</h2>
+  <table id="recentTransactionsTable">
+    <thead>
+      <tr>
+        <th>Stock Symbol</th>
+        <th>Shares</th>
+        <th>Sale Price</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Recent transactions will be dynamically added here -->
+    </tbody>
+  </table>
+</section>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../javascript/app.js"></script>
 </body>
 </html>
