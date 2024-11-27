@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio | Investment App</title>
+    <link rel="stylesheet" href="../css/portfolio.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="#" class="logo">Investment App</a>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="portfolio.html" class="active">My Portfolio</a>
+            <a href="notifications.html">Notifications</a>
+            <a href="trending.html">Trending</a>
+            <a href="market.html">Market</a>
+            <a href="about.html">About</a>
+            <div class="auth-links">
+                <a href="logout.html">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header>
+        <h1>My Portfolio</h1>
+        <p>Track and manage your stock investments easily.</p>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Add Stock Button -->
+        <button class="add-stock-btn">Add Stock</button>
+
+        <!-- Portfolio Table -->
+        <table class="portfolio-table">
+            <thead>
+                <tr>
+                    <th>Stock Symbol</th>
+                    <th>Shares</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>AAPL</td>
+                    <td>50</td>
+                    <td>
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>TSLA</td>
+                    <td>20</td>
+                    <td>
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        © 2024 Investment App
+    </footer>
+</body>
+</html>
