@@ -66,6 +66,11 @@ function renderChart(canvasId, labels, data, label) {
   });
 }
 
+function updateChartRange(chartId, range) {
+  console.log(`Loading ${chartId} data for ${range}`);
+  // Placeholder for API call to fetch data based on range
+}
+
 // LOGIN AND REGISTER
 async function register() {
   const username = document.getElementById("registerUsername").value;
@@ -101,30 +106,111 @@ async function login() {
 }
 
 let portfolio = []; // Portfolio data
-let recentTransactions = []; // Transactions for the current day
+let totalValue = 0;
 
 function showAddStockForm() {
   const form = document.getElementById("addStockForm");
   form.style.display = form.style.display === "none" ? "flex" : "none";
 }
 
-async function buyStock() {
-  const stockSymbol = document.getElementById("stockSymbol").value;
+async function buyStock(stockSymbol = null, purchasePrice = null) {
+  // If stock details are not passed, take input from the form
+  const symbol = stockSymbol || document.getElementById("stockSymbol").value;
   const shares = parseInt(document.getElementById("shares").value, 10);
-  const purchasePrice = parseFloat(document.getElementById("purchasePrice").value);
+  const price = purchasePrice || parseFloat(document.getElementById("purchasePrice").value);
   const purchaseDate = document.getElementById("purchaseDate").value;
 
-  if (!stockSymbol || !shares || !purchasePrice || !purchaseDate) {
+  // Validate inputs
+  if (!symbol || !shares || !price || !purchaseDate) {
     alert("Please fill in all fields.");
     return;
   }
 
-  const newStock = { stockSymbol, shares, purchasePrice, purchaseDate };
-  portfolio.push(newStock);
+  // Add stock to the portfolio
+  portfolio.push({
+    stockSymbol: symbol,
+    shares: shares,
+    purchasePrice: price,
+    purchaseDate: purchaseDate,
+  });
 
-  updatePortfolioTable();
-  alert("Stock added to portfolio!");
+  updatePortfolioTable(); // Update the portfolio table
+  updatePortfolioSummaryFromTable(); // Update the summary
+  alert(`Bought ${shares} shares of ${symbol} at $${price.toFixed(2)} per share.`);
+
+  // Clear the input fields only if the function was invoked via the form
+  if (!stockSymbol && !purchasePrice) {
+    document.getElementById("stockSymbol").value = "";
+    document.getElementById("shares").value = "";
+    document.getElementById("purchasePrice").value = "";
+    document.getElementById("purchaseDate").value = "";
+  }
 }
+
+
+function sellStock(stockSymbol = null) {
+  const symbol = stockSymbol || prompt("Enter the stock symbol you want to sell:");
+  const stockIndex = portfolio.findIndex((stock) => stock.stockSymbol === symbol);
+
+  if (stockIndex === -1) {
+    alert(`You don't own any shares of ${symbol}.`);
+    return;
+  }
+
+  const stock = portfolio[stockIndex];
+  const sharesToSell = prompt(`You own ${stock.shares} shares of ${symbol}. How many would you like to sell?`, "1");
+  const sharesNum = parseInt(sharesToSell, 10);
+
+  if (!isNaN(sharesNum) && sharesNum > 0 && sharesNum <= stock.shares) {
+    stock.shares -= sharesNum; // Deduct shares
+
+    if (stock.shares === 0) {
+      portfolio.splice(stockIndex, 1); // Remove stock if all shares are sold
+    }
+
+    updatePortfolioTable(); // Update portfolio table
+    updatePortfolioSummaryFromTable(); // Update summary
+    alert(`Sold ${sharesNum} shares of ${symbol}.`);
+  } else {
+    alert("Invalid number of shares.");
+  }
+}
+
+  // Sort Portfolio by criteria
+function sortPortfolio(criteria) {
+  switch (criteria) {
+    case "date":
+      portfolio.sort((a, b) => new Date(a.purchaseDate) - new Date(b.purchaseDate));
+      break;
+    case "symbol":
+      portfolio.sort((a, b) => a.stockSymbol.localeCompare(b.stockSymbol));
+      break;
+    case "shares":
+      portfolio.sort((a, b) => b.shares - a.shares);
+      break;
+    case "purchasePrice":
+      portfolio.sort((a, b) => b.purchasePrice - a.purchasePrice);
+      break;
+    case "currentPrice":
+      portfolio.sort(
+        (a, b) =>
+          (b.purchasePrice * 1.1) - (a.purchasePrice * 1.1) // Mocked current price
+      );
+      break;
+    case "return":
+      portfolio.sort(
+        (a, b) =>
+          b.shares * b.purchasePrice * 0.1 - a.shares * a.purchasePrice * 0.1 // Mocked return
+      );
+      break;
+    default:
+      console.warn("Invalid sorting criteria");
+  }
+  updatePortfolioTable();
+}
+
+  alert("Stock added to portfolio!");
+
 
 function updatePortfolioTable() {
   const tableBody = document.querySelector("#portfolioTable tbody");
@@ -147,48 +233,111 @@ function updatePortfolioTable() {
   });
 }
 
-function sellStock(index) {
-  const soldStock = portfolio.splice(index, 1)[0]; // Remove the stock from portfolio
+function updatePortfolioSummaryFromTable() {
+  const table = document.getElementById("portfolioTable");
+  let totalPurchaseValue = 0;
+  let totalCurrentValue = 0;
+  let totalProfit = 0;
 
-  // Add to recent transactions
-  const today = new Date().toISOString().split("T")[0]; // Get today's date
-  recentTransactions.push({
-    ...soldStock,
-    date: today,
-  });
+  // Loop through table rows (excluding the header)
+  for (let i = 1; i < table.rows.length; i++) {
+    const row = table.rows[i];
+    const shares = parseFloat(row.cells[1].textContent); // Shares
+    const purchasePrice = parseFloat(row.cells[2].textContent.replace("$", "")); // Purchase Price
+    const currentPrice = parseFloat(row.cells[3].textContent.replace("$", "")); // Current Price
 
-  // Filter recent transactions to keep only today's transactions
-  recentTransactions = recentTransactions.filter(
-    (transaction) => transaction.date === today
-  );
+    // Update calculations
+    totalPurchaseValue += shares * purchasePrice;
+    totalCurrentValue += shares * currentPrice;
+    totalProfit += shares * (currentPrice - purchasePrice);
+  }
 
-  updatePortfolioTable();
-  updateRecentTransactionsTable();
-  alert(`Sold ${soldStock.shares} shares of ${soldStock.stockSymbol}!`);
+  // Calculate overall percentage change
+  const overallPercentageChange =
+    totalPurchaseValue > 0
+      ? ((totalCurrentValue - totalPurchaseValue) / totalPurchaseValue) * 100
+      : 0;
+
+  // Update summary UI
+  document.getElementById("totalValue").textContent = totalCurrentValue.toFixed(2);
+  document.getElementById("dailyProfit").textContent = totalProfit.toFixed(2);
+  document.getElementById("percentageChange").textContent =
+    overallPercentageChange.toFixed(2);
 }
 
-function updateRecentTransactionsTable() {
-  const tableBody = document.querySelector("#recentTransactionsTable tbody");
-  tableBody.innerHTML = "";
-
-  recentTransactions.forEach((transaction) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${transaction.stockSymbol}</td>
-      <td>${transaction.shares}</td>
-      <td>$${transaction.purchasePrice.toFixed(2)}</td>
-      <td>${transaction.date}</td>
-    `;
-    tableBody.appendChild(row);
-  });
-}
 
 function loadPortfolio() {
-  // Simulate loading portfolio data
+  // Simulated portfolio data with mocked current prices
   portfolio = [
-    { stockSymbol: "AAPL", shares: 10, purchasePrice: 150, purchaseDate: "2024-01-01" },
-    { stockSymbol: "GOOGL", shares: 5, purchasePrice: 2800, purchaseDate: "2024-02-01" },
+    {
+      stockSymbol: "AAPL",
+      shares: 10,
+      purchasePrice: 150,
+      purchaseDate: "2024-01-01",
+      currentPrice: 165, // Mocked current price
+    },
+    {
+      stockSymbol: "GOOGL",
+      shares: 5,
+      purchasePrice: 2800,
+      purchaseDate: "2024-02-01",
+      currentPrice: 3080, // Mocked current price
+    },
   ];
+
+  // Update the portfolio table and summary
   updatePortfolioTable();
+  updatePortfolioSummaryFromTable();
+
 }
+
+// Mock Watchlist Data
+const watchlist = [
+  { symbol: "MSFT", currentPrice: 330.50, dailyChange: 1.2 },
+  { symbol: "TSLA", currentPrice: 750.10, dailyChange: -0.8 },
+  { symbol: "AMZN", currentPrice: 3200.25, dailyChange: 0.5 },
+];
+
+// Function to Render Watchlist
+function loadWatchlist() {
+  const watchlistTable = document.getElementById("watchlistTable");
+  watchlistTable.innerHTML = ""; // Clear existing rows
+
+  watchlist.forEach((stock, index) => {
+    const row = document.createElement("tr");
+
+    // Populate the row with stock data
+    row.innerHTML = `
+      <td>${stock.symbol}</td>
+      <td>$${stock.currentPrice.toFixed(2)}</td>
+      <td style="color: ${stock.dailyChange >= 0 ? 'green' : 'red'};">
+        ${stock.dailyChange.toFixed(2)}%
+      </td>
+      <td>
+        <button onclick="removeFromWatchlist(${index})">Remove</button>
+        <button onclick="buyStockFromWatchlist('${stock.symbol}', ${stock.currentPrice})">Buy</button>
+      </td>
+    `;
+
+    // Append the row to the table
+    watchlistTable.appendChild(row);
+  });
+}
+
+// Function to Remove Stock from Watchlist
+function removeFromWatchlist(index) {
+  watchlist.splice(index, 1); // Remove stock from watchlist array
+  loadWatchlist(); // Reload the watchlist
+}
+
+// Function to Simulate Buying Stock from Watchlist
+function buyStockFromWatchlist(symbol, price) {
+  alert(`Buying stock: ${symbol} at $${price.toFixed(2)}`);
+  // You can integrate this with your buyStock function if needed
+}
+
+// Call loadWatchlist on page load
+document.addEventListener("DOMContentLoaded", loadWatchlist);
+
+
 

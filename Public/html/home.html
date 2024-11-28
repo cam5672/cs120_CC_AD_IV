@@ -36,23 +36,34 @@
 
   <!-- Market Overview Section -->
   <main>
-    <section class="market-container">
-        <h2>Market Overview</h2>
-        <div class="market-charts">
-          <!-- S&P 500 Chart -->
-          <div class="chart">
-            <h3>S&P 500</h3>
-            <canvas id="sp500Chart"></canvas>
-          </div>
-          <!-- NASDAQ Chart -->
-          <div class="chart">
-            <h3>NASDAQ</h3>
-            <canvas id="nasdaqChart"></canvas>
-          </div>
-        </div>
-        <p>Top Movers: <span id="topMovers">Loading...</span></p>
-      </section>
-      
+   <!-- Market Overview Section -->
+<section class="market-container">
+  <h2>Market Overview</h2>
+  <div class="market-charts">
+    <div class="chart">
+      <h3>S&P 500</h3>
+      <canvas id="sp500Chart"></canvas>
+      <div class="chart-buttons">
+        <button onclick="loadChart('sp500', '1d')">1 Day</button>
+        <button onclick="loadChart('sp500', '1m')">1 Month</button>
+        <button onclick="loadChart('sp500', '1y')">1 Year</button>
+        <button onclick="loadChart('sp500', '5y')">5 Years</button>
+      </div>
+    </div>
+    <div class="chart">
+      <h3>NASDAQ</h3>
+      <canvas id="nasdaqChart"></canvas>
+      <div class="chart-buttons">
+        <button onclick="loadChart('nasdaq', '1d')">1 Day</button>
+        <button onclick="loadChart('nasdaq', '1m')">1 Month</button>
+        <button onclick="loadChart('nasdaq', '1y')">1 Year</button>
+        <button onclick="loadChart('nasdaq', '5y')">5 Years</button>
+      </div>
+    </div>
+  </div>
+  <p>Top Movers: <span id="topMovers">Loading...</span></p>
+</section>
+
   </main>
 
   <!-- Footer -->

@@ -43,6 +43,14 @@ h1 {
   font-weight: bold;
 }
 
+/* Header Section */
+.portfolio-header {
+  text-align: center;
+  padding: 2rem;
+  background-color: #007bff;
+  color: white;
+}
+
 /* Portfolio Summary */
 .summary-container {
   background-color: #007bff;
@@ -54,43 +62,30 @@ h1 {
   text-align: center;
 }
 
-/* Watchlist Section */
-.watchlist-container {
-  background-color: white;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 800px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.add-stock-container {
+  display: flex;
+  justify-content: center; /* Center align */
+  margin: 20px 0; /* Add spacing */
 }
 
-.watchlist-container table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-.watchlist-container th,
-.watchlist-container td {
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #ddd;
-}
-
-.watchlist-container th {
+.add-stock-container button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: 1px solid #007bff;
+  border-radius: 4px;
   background-color: #007bff;
   color: white;
+  cursor: pointer;
 }
 
-/* Portfolio Table */
-.portfolio-container {
-  max-width: 1000px;
-  margin: 20px auto;
-  padding: 10px;
+.add-stock-container button:hover {
+  background-color: #0056b3;
 }
 
 #addStockForm {
   margin: 20px 0;
+  justify-content:center;
+  text-align: center;
 }
 
 #addStockForm input {
@@ -99,49 +94,53 @@ h1 {
   font-size: 1rem;
 }
 
-table {
+/* Portfolio Table */
+.portfolio-container {
+  max-width: 1000px;
+  margin: 20px auto; /* Add spacing */
+  padding: 10px;
+  display: flex;
+  flex-direction: column; /* Stack dropdown and table vertically */
+  gap: 10px; /* Add space between dropdown and table */
+}
+
+.portfolio-container table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
 
-table th,
-table td {
+.portfolio-container th,
+.portfolio-container td {
   padding: 10px;
   text-align: center;
   border: 1px solid #ddd;
 }
 
-table th {
+.portfolio-container th {
   background-color: #007bff;
   color: white;
 }
+.portfolio-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
 
-/* Recent Transactions Section */
-.transactions-container {
+.portfolio-actions select {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
   background-color: white;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 800px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: #333;
+  cursor: pointer;
 }
 
-.transactions-container table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.transactions-container th,
-.transactions-container td {
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #ddd;
-}
-
-.transactions-container th {
+.sort-dropdown select:hover {
   background-color: #007bff;
   color: white;
+  border-color: #0056b3;
 }
 
 /* Buttons */
@@ -157,3 +156,38 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+
+/* Watchlist Section */
+.watchlist-container {
+  background-color: white;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.watchlist-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.watchlist-container th,
+.watchlist-container td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.watchlist-container th {
+  background-color: #007bff;
+  color: white;
+}
+
+
+
+
