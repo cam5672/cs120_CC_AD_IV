@@ -1,0 +1,113 @@
+@import url('base.css');
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Spread out logo and links */
+    align-items: center; /* Align items vertically in the center */
+    background-color: #007bff;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem; /* Add spacing between links */
+}
+
+.nav-links .auth-links {
+    margin-left: 2rem; /* Add spacing before "Logout" */
+    border-left: 1px solid #ffffff50;
+    padding-left: 1rem;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+.navbar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Header Section */
+header {
+    text-align: center;
+    padding: 3rem 1rem;
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+header p {
+    font-size: 1.2rem;
+}
+
+/* Form Styling */
+.stock-search {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 2rem;
+    max-width: 67%;
+}
+
+.stock-search input {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.stock-search button {
+    padding: 0.8rem 1.5rem;
+}
+
+/* Stock Details Section */
+#stock-details {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+#stock-info p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+#stock-info table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+#stock-info table th,
+#stock-info table td {
+    text-align: left;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+}
+
+#stock-info table th {
+    background: #f4f4f9;
+    font-weight: bold;
+}
+
+#stock-info table tr:nth-child(even) {
+    background: #f9f9f9;
+}

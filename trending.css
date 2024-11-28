@@ -1,0 +1,121 @@
+@import url('base.css');
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Spread out logo and links */
+    align-items: center; /* Align items vertically in the center */
+    background-color: #007bff;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem; /* Add spacing between links */
+}
+
+.nav-links .auth-links {
+    margin-left: 2rem; /* Add spacing before "Logout" */
+    border-left: 1px solid #ffffff50;
+    padding-left: 1rem;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+.navbar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Header Section */
+header {
+    text-align: center;
+    padding: 3rem 1rem;
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+header p {
+    font-size: 1.2rem;
+}
+
+/* Body */
+#trending-stocks {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#stocks-container {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#stocks-container li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+#stocks-container li:last-child {
+    border-bottom: none;
+}
+
+#stocks-container li:hover {
+    background: #f4f4f9;
+}
+
+#stocks-container li strong {
+    font-weight: bold;
+    color: #333;
+}
+
+#stocks-container li span {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+/* Highlight large percentage changes */
+#stocks-container li span.up {
+    color: #28a745; /* Green for positive changes */
+    font-weight: bold;
+}
+
+#stocks-container li span.down {
+    color: #dc3545; /* Red for negative changes */
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #stocks-container li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #stocks-container li strong,
+    #stocks-container li span {
+        margin-bottom: 0.5rem;
+    }
+}
