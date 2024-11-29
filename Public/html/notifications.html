@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Notifications | Investment App</title>
+    <link rel="stylesheet" href="../css/notifications.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="#" class="logo">Investment App</a>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="portfolio.html" class="active">My Portfolio</a>
+            <a href="notifications.html">Notifications</a>
+            <a href="trending.html">Trending</a>
+            <a href="market.html">Market</a>
+            <a href="about.html">About</a>
+            <div class="auth-links">
+                <a href="logout.html">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header>
+        <h1>My Notifications</h1>
+        <p>Manage when notifications will be sent to alert you on your Portfilio!</p>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Add Stock Button -->
+        <button class="add-alert-btn">Add Alert</button>
+
+        <!-- Portfolio Table -->
+        <table class="alert-table">
+            <thead>
+                <tr>
+                    <th>Alert Name</th>
+                    <th>Stocks Included</th>
+                    <th>Percent or Nominal</th>
+                    <th>Valuation Period</th>
+                    <th>Notification Method</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Portoflio</td>
+                    <td>All</td>
+                    <td>
+                        <label>
+                            <input type="radio" name="percent_or_nominal" value="Percent"> Percent
+                        </label>
+                        <label>
+                            <input type="radio" name="percent_or_nominal" value="Nominal"> Nominal
+                        </label>
+                    </td>
+                    <td>
+                        10 Days
+                    </td>
+                    <td>
+                        <label>
+                            <input type="checkbox" name="notification_option" value="email"> Email
+                        </label>
+                        <label>
+                            <input type="checkbox" name="notification_option" value="text"> Text
+                        </label>
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        © 2024 Investment App
+    </footer>
+</body>
+</html>
