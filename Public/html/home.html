@@ -1,53 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Investment App</title>
-    <link rel="stylesheet" href="../css/home.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home | Investment App</title>
+  <link rel="stylesheet" href="../css/home.css">
 </head>
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <a href="#" class="logo">Investment App</a>
-        <div class="nav-links">
-            <a href="home.html">Home</a>
-            <a href="portfolio.html">My Portfolio</a>
-            <a href="notifications.html">Notifications</a>
-            <a href="trending.html">Trending</a>
-            <a href="market.html">Market</a>
-            <a href="about.html">About</a>
-            <div class="auth-links">
-                <a href="login.html">Login</a>
-                <a href="register.html">Register</a>
-            </div>
-        </div>
-    </nav>
+<body onload="loadUserDetails(); loadMarketOverview();">
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="#" class="logo">Investment App</a>
+    <div class="nav-links">
+      <a href="../html/home.html">Home</a>
+      <a href="../html/portfolio.html">My Portfolio</a>
+      <a href="../html/notifications.html">Notifications</a>
+      <a href="../html/trending.html">Trending</a>
+      <a href="../html/market.html">Market</a>
+      <a href="../html/about.html">About</a>
+      <div class="auth-links">
+        <a href="../html/login.html">Login</a>
+        <a href="../html/register.html">Register</a>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Header -->
-    <header>
-        <h1>Welcome to the Investment App</h1>
-        <p>Your trusted platform for managing investments and staying up to date with market trends.</p>
-    </header>
+  <!-- Header -->
+  <header>
+    <div id="welcome-message" class="welcome-container">
+      <h2>Welcome, <span id="username">User</span>!</h2>
+      <button onclick="toggleTheme()">Switch Theme</button>
+    </div>
+    <h1>Welcome to the Investment App</h1>
+    <p>Your trusted platform for managing investments and staying up to date with market trends.</p>
+  </header>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Latest Market News Section -->
-        <section class="section" id="market-news">
-            <h2>Latest Market News</h2>
-            <p>Stay updated with the latest market insights and trends.</p>
-        </section>
+  <!-- Market Overview Section -->
+  <main>
+   <!-- Market Overview Section -->
+<section class="market-container">
+  <h2>Market Overview</h2>
+  <div class="market-charts">
+    <div class="chart">
+      <h3>S&P 500</h3>
+      <canvas id="sp500Chart"></canvas>
+      <div class="chart-buttons">
+        <button onclick="loadChart('sp500', '1d')">1 Day</button>
+        <button onclick="loadChart('sp500', '1m')">1 Month</button>
+        <button onclick="loadChart('sp500', '1y')">1 Year</button>
+        <button onclick="loadChart('sp500', '5y')">5 Years</button>
+      </div>
+    </div>
+    <div class="chart">
+      <h3>NASDAQ</h3>
+      <canvas id="nasdaqChart"></canvas>
+      <div class="chart-buttons">
+        <button onclick="loadChart('nasdaq', '1d')">1 Day</button>
+        <button onclick="loadChart('nasdaq', '1m')">1 Month</button>
+        <button onclick="loadChart('nasdaq', '1y')">1 Year</button>
+        <button onclick="loadChart('nasdaq', '5y')">5 Years</button>
+      </div>
+    </div>
+  </div>
+  <p>Top Movers: <span id="topMovers">Loading...</span></p>
+</section>
 
-        <!-- About Section -->
-        <section class="section" id="about">
-            <h2>About the Investment App</h2>
-            <p>Our app helps you manage your portfolio and provides real-time updates on market trends, news, and investment opportunities.</p>
-        </section>
-    </main>
+  </main>
 
-    <!-- Footer -->
-    <footer>
-        © 2024 Investment App
-    </footer>
+  <!-- Footer -->
+  <footer>
+    © 2024 Investment App
+  </footer>
+  <script src="../javascript/home.js"></script>
 </body>
 </html>
