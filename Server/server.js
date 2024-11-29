@@ -10,7 +10,7 @@ const app = express();
 
 // Database Pool Configuration
 const pool = new Pool({
-  connectionString: 'postgresql://MarketStack%20Stock%20Data_owner:9jKSsIn2WDwF@ep-autumn-surf-a6mzhktt-pooler.us-west-2.aws.neon.tech/MarketStack%20Stock%20Data?sslmode=require',
+  connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 });
 
@@ -23,6 +23,7 @@ pool.query('SELECT NOW()', (err, res) => {
   }
 });
 
+//Middleware
 app.use(cors());
 app.use(express.json());
 
