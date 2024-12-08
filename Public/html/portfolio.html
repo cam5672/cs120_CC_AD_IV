@@ -6,15 +6,16 @@
   <title>My Portfolio | Investment App</title>
   <link rel="stylesheet" href="../css/portfolio.css">
 </head>
-<body onload="loadPortfolioSummary(); loadPortfolio(); loadWatchlist();">
+<body onload="loadPortfolio(); updateWatchlistTable();">
+
   <!-- Navigation Bar -->
   <nav class="navbar">
-    <a href="#" class="logo">Investment App</a>
+    <a href="/home" class="logo">Investment App</a>
     <div class="nav-links">
-      <a href="home.html">Home</a>
-      <a href="portfolio.html">My Portfolio</a>
-      <a href="notifications.html">Notifications</a>
-      <a href="trending.html">Trending</a>
+      <a href="/home">Home</a>
+      <a href="/portfolio">My Portfolio</a>
+      <a href="/notifications">Notifications</a>
+      <a href="/trending">Trending</a>
       <a href="#" onclick="logout()">Logout</a>
     </div>
   </nav>
@@ -39,9 +40,9 @@
   </div>
 
   <div id="addStockForm" style="display: none;">
-    <input type="text" id="stockSymbol" placeholder="Stock Symbol">
+    <input type="text" id="stockSymbol" placeholder="Stock Symbol" onblur="autofillStockDetails()">
     <input type="number" id="shares" placeholder="Number of Shares">
-    <input type="number" id="purchasePrice" placeholder="Purchase Price">
+    <input type="number" id="purchasePrice" placeholder="Purchase Price" disabled>
     <input type="date" id="purchaseDate" placeholder="Purchase Date">
     <button onclick="buyStock()">Add to Portfolio</button>
   </div>
@@ -58,7 +59,6 @@
         <option value="currentPrice">Sort by Current Price</option>
         <option value="return">Sort by Return</option>
       </select>
-      
     </div>
 
     <table id="portfolioTable">
@@ -82,6 +82,11 @@
   <!-- Watchlist -->
   <div id="watchlist" class="watchlist-container">
     <h2>Watchlist</h2>
+    <button onclick="showAddToWatchlistForm()">Add to Watchlist</button>
+    <div id="addWatchlistForm" style="display: none;">
+      <input type="text" id="watchlistSymbol" placeholder="Stock Symbol" onblur="autofillWatchlistDetails()">
+      <button onclick="addToWatchlist()">Add</button>
+    </div>
     <table>
       <thead>
         <tr>
@@ -92,12 +97,12 @@
         </tr>
       </thead>
       <tbody id="watchlistTable">
-
+        <!-- Watchlist items dynamically populated here -->
       </tbody>
     </table>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="../javascript/app.js"></script>
+  <script src="../javascript/portfolio.js"></script>
 </body>
 </html>

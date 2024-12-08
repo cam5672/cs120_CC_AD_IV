@@ -63,70 +63,144 @@ header p {
   font-size: 1.2rem;
 }
 
-/* Market Overview Section */
-.market-container {
-  background-color: white;
+/* Market Section */
+.market-section {
   padding: 20px;
   margin: 20px auto;
-  max-width: 800px;
+  max-width: 1200px;
+  border: 1px solid #ccc;
   border-radius: 8px;
+  background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.market-container ul {
-  list-style: none;
-  padding: 0;
-}
-
-.market-charts {
-  display: flex;
-  gap: 20px;
-  justify-content: space-between;
-}
-
-.chart {
-  width: 48%;
+.market-section h2 {
   text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
 }
 
-/* Chart Buttons */
-.chart-buttons {
+.chart-container {
   display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
   justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
+  margin: 20px 0;
 }
-
-.chart-buttons button {
-  padding: 5px 10px;
-  font-size: 0.9rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.chart-buttons button:hover {
-  background-color: #0056b3;
-}
-
 
 canvas {
-  width: 100%;
-  height: 200px;
+  max-width: 400px;
+  max-height: 300px;
+  margin: 10px auto;
   border: 1px solid #ddd;
   border-radius: 8px;
 }
 
-/* About Section */
-.about-container {
-  background-color: white;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 800px;
+/* Trending Stocks Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  text-align: center;
+  font-size: 1rem;
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+table th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Cards for Currency Exchange */
+.currency-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.currency-card {
+  border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 200px;
+  background-color: #f9f9f9;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+
+.currency-card:hover {
+  transform: translateY(-5px);
+}
+
+.currency-card h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #007bff;
+}
+
+.currency-card p {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+/* Currency Table Styles */
+.currency-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.currency-table th, .currency-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.currency-table th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+.currency-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.currency-table tr:hover {
+  background-color: #ddd;
+}
+
+
+/* Sector Performance Chart */
+#sector-performance-chart {
+  width: 100%;
+  height: auto;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 /* Footer */
@@ -148,9 +222,21 @@ body.dark-theme .navbar {
   background-color: #1a1a1a;
 }
 
-body.dark-theme .market-container,
-body.dark-theme .about-container {
+body.dark-theme .market-section {
   background-color: #333;
+  color: #ddd;
+}
+
+body.dark-theme table th {
+  background-color: #1a1a1a;
+}
+
+body.dark-theme table tr:hover {
+  background-color: #444;
+}
+
+body.dark-theme .currency-card {
+  background-color: #444;
   color: #ddd;
 }
 

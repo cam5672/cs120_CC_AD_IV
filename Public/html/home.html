@@ -5,71 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home | Investment App</title>
   <link rel="stylesheet" href="../css/home.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body onload="loadUserDetails(); loadMarketOverview();">
-  <!-- Navigation Bar -->
+<body>
   <nav class="navbar">
     <a href="#" class="logo">Investment App</a>
     <div class="nav-links">
-      <a href="home.html">Home</a>
-      <a href="portfolio.html">My Portfolio</a>
-      <a href="notifications.html">Notifications</a>
-      <a href="trending.html">Trending</a>
-      <a href="market.html">Market</a>
-      <a href="about.html">About</a>
+      <a href="/home">Home</a>
+      <a href="/portfolio">My Portfolio</a>
+      <a href="/notifications">Notifications</a>
+      <a href="/trending">Trending</a>
+      <a href="/market">Market</a>
+      <a href="/about">About</a>
       <div class="auth-links">
-        <a href="login.html">Login</a>
-        <a href="register.html">Register</a>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
       </div>
     </div>
   </nav>
 
-  <!-- Header -->
   <header>
-    <div id="welcome-message" class="welcome-container">
-      <h2>Welcome, <span id="username">User</span>!</h2>
-      <button onclick="toggleTheme()">Switch Theme</button>
-    </div>
-    <h1>Welcome to the Investment App</h1>
+    <h1>Welcome, <span id="user-name"></span>! to the Investment App</h1>
     <p>Your trusted platform for managing investments and staying up to date with market trends.</p>
   </header>
 
-  <!-- Market Overview Section -->
   <main>
-   <!-- Market Overview Section -->
-<section class="market-container">
-  <h2>Market Overview</h2>
-  <div class="market-charts">
-    <div class="chart">
-      <h3>S&P 500</h3>
-      <canvas id="sp500Chart"></canvas>
-      <div class="chart-buttons">
-        <button onclick="loadChart('sp500', '1d')">1 Day</button>
-        <button onclick="loadChart('sp500', '1m')">1 Month</button>
-        <button onclick="loadChart('sp500', '1y')">1 Year</button>
-        <button onclick="loadChart('sp500', '5y')">5 Years</button>
+    <section id="major-indices">
+      <h2>Major Indices</h2>
+      <div class="chart-container">
+        <!-- Ensure these IDs match the canvasId values used in the home.js -->
+        <canvas id="SPX-chart"></canvas>
+        <canvas id="NDX-chart"></canvas>
+        <canvas id="DJI-chart"></canvas>
       </div>
-    </div>
-    <div class="chart">
-      <h3>NASDAQ</h3>
-      <canvas id="nasdaqChart"></canvas>
-      <div class="chart-buttons">
-        <button onclick="loadChart('nasdaq', '1d')">1 Day</button>
-        <button onclick="loadChart('nasdaq', '1m')">1 Month</button>
-        <button onclick="loadChart('nasdaq', '1y')">1 Year</button>
-        <button onclick="loadChart('nasdaq', '5y')">5 Years</button>
-      </div>
-    </div>
-  </div>
-  <p>Top Movers: <span id="topMovers">Loading...</span></p>
-</section>
+    </section>
 
+    <section id="trending-stocks">
+      <h2>Trending Stocks</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Price</th>
+            <th>Change (%)</th>
+          </tr>
+        </thead>
+        <tbody id="stocks-data"></tbody>
+      </table>
+    </section>
+
+    <section id="currency-exchange">
+      <h2>Currency Exchange Rates</h2>
+      <div id="currencies-data" class="currency-container"></div>
+    </section>
   </main>
 
-  <!-- Footer -->
   <footer>
-    © 2024 Investment App
+    <p>© 2024 Investment App</p>
   </footer>
-  <script src="../javascript/app.js"></script>
+
+  <!-- Load the script after the DOM -->
+  <script src="../javascript/home.js"></script>
 </body>
 </html>
