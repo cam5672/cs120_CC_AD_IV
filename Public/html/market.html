@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Search</title>
+    <link rel="stylesheet" href="../css/market.css">
+    <script defer src="../javascript/market.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="#" class="logo">Investment App</a>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="portfolio.html">My Portfolio</a>
+            <a href="notifications.html">Notifications</a>
+            <a href="trending.html">Trending</a>
+            <a href="market.html">Market</a>
+            <a href="about.html">About</a>
+            <div class="auth-links">
+                <a href="login.html">Login</a>
+                <a href="register.html">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Stock Market Search</h1>
+        <p>Find detailed information about any stock ticker</p>
+    </header>
+
+    <main>
+        <section class="section">
+        <form id="stock-search-form" class="stock-search">
+            <label for="ticker-input">Enter Stock Ticker:</label>
+            <input type="text" id="ticker-input" placeholder="e.g., AAPL, TSLA" required>
+            <button type="submit">Search</button>
+        </form>
+        </section>
+
+        <section class="section" id="stock-details">
+        <h2>Details</h2>
+        <div id="stock-info">
+            <p>Search up a stock to see more detailed information here.</p>
+        </div>
+        </section>
+    </main>
+
+    <footer>
+        © 2024 Investment App
+    </footer>
+</body>
+</html>
