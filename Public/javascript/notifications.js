@@ -109,3 +109,11 @@ async function deleteAlert(id) {
 
 // Load Alerts on Page Load
 document.addEventListener('DOMContentLoaded', loadAlerts);
+
+function logout() {
+    // Perform any logout cleanup if needed (e.g., clearing localStorage)
+    localStorage.clear();
+  
+    // Redirect to the login page
+    window.location.href = "/login";
+  }
