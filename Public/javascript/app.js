@@ -31,6 +31,7 @@ async function handleLogin(event) {
     if (response.ok) {
       // Save token to localStorage
       localStorage.setItem("token", result.token);
+      localStorage.setItem("userId", result.userId);
 
       // Redirect to portfolio page
       alert("Login successful!");

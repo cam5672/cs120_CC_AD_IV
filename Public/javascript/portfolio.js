@@ -7,8 +7,20 @@ let watchlist = [];
 
 // Load Portfolio on Page Load
 async function loadPortfolio() {
-  await updatePortfolioTable();
-  updatePortfolioSummary();
+  const userId = localStorage.getItem("userId"); // retrieve user ID
+  
+  try {
+    const response = await fetch(`http://localhost:3000/portfolio/${userId}`);
+    if (response.ok) {
+      portfolio = await response.json(); // populate portfolio with saved data
+      updatePortfolioTable();
+      updatePortfolioSummary();
+    } else {
+      console.error("Failed to fetch portfolio data");
+    }
+  } catch (error) {
+    console.error("Error loading portfolio:", error);
+  }
 }
 
 // Show Add Stock Form
@@ -64,15 +76,40 @@ function buyStock() {
   const shares = parseInt(document.getElementById("shares").value, 10);
   const price = parseFloat(document.getElementById("purchasePrice").value);
   const purchaseDate = document.getElementById("purchaseDate").value;
+  const userId = localStorage.getItem("userId"); // retrieve user ID
 
+  // validate input
   if (!symbol || !shares || !price || !purchaseDate) {
     alert("Please fill in all fields.");
     return;
   }
 
+  // send stock data to back end
+  try {
+    const response = await fetch("http://localhost:3000/portfolio", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, stockSymbol: symbol, shares, purchasePrice: price, purchaseDate }),
+    });
+
+    if (response.ok) {
+      alert("Stock added to your portfolio!");
+      loadPortfolio(); // reload portfolio table after saving to backend
+    } else {
+      const result = await response.json();
+      alert(result.error || "Failed to add stock.");
+    }
+  } catch (error) {
+    console.error("Error adding stock to portfolio:", error);
+    alert("An error occurred. Please try again later.");
+  }
+
+  
+  /* prev local storage code
   portfolio.push({ stockSymbol: symbol, shares, purchasePrice: price, purchaseDate });
   updatePortfolioTable();
   updatePortfolioSummary();
+  */
 }
 
 // Sell Stock from Portfolio
