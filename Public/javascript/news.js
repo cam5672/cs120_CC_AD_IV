@@ -1,5 +1,5 @@
 const apiKey = 'zuc9hftGHcs7gtlHaKpInxqQvkdRTEeT2e97mncO';
-const endpoint = `https://api.marketaux.com/v1/news/all?api_token=${apiKey}&filter_entities=true&countries=us&limit=1`;
+const endpoint = `https://api.marketaux.com/v1/news/all?api_token=${apiKey}&filter_entities=true&countries=us&limit=20`;
 // API limits to 100 requests for the month
 
 async function fetchNews() {
