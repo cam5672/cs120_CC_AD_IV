@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 // Register a new user
 const registerUser = async (req, res, pool) => {
     const { email, password, firstName, lastName } = req.body;
@@ -28,8 +30,6 @@ const registerUser = async (req, res, pool) => {
 };
 
 // Login user
-const jwt = require('jsonwebtoken');
-
 const loginUser = async (req, res, pool) => {
     const { email, password } = req.body;
 

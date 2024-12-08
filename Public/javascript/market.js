@@ -2,6 +2,16 @@ const apiKey = '39b717f34916c30097beec27832459cd';
 const baseUrl = 'http://api.marketstack.com/v1/eod?access_key=';
 
 document.getElementById('stock-search-form').addEventListener('submit', async (event) => {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("User token not found");
+      window.location.href = "/login"; // Redirect to login if no token
+      return;
+    }
+
+    
     event.preventDefault();
 
     const ticker = document.getElementById('ticker-input').value.toUpperCase();
@@ -36,3 +46,11 @@ document.getElementById('stock-search-form').addEventListener('submit', async (e
         stockInfoContainer.innerHTML = '<p>There was an error fetching the stock data. Please try again later.</p>';
     }
 });
+
+function logout() {
+    // Perform any logout cleanup if needed (e.g., clearing localStorage)
+    localStorage.clear();
+  
+    // Redirect to the login page
+    window.location.href = "/login";
+  }

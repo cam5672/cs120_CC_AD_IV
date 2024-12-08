@@ -19,6 +19,10 @@ exports.addStockToPortfolio = async (req, res) => {
     const userId = req.userId;
     const { stockSymbol, shares, purchasePrice, purchaseDate } = req.body;
 
+    if (!stockSymbol || !shares || !purchasePrice || !purchaseDate) {
+        return res.status(400).json({ error: "All fields are required." });
+      }
+
     const { Pool } = require('pg');
     const pool = new Pool({
         connectionString: process.env.DATABASE_URL,

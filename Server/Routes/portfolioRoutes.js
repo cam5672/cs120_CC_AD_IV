@@ -1,42 +1,18 @@
 const express = require('express');
+const { verifyToken } = require('../Middleware/authMiddleware'); // Import the middleware
+const portfolioController = require('../Controllers/portfolioController');
 
 module.exports = (pool) => {
-  const router = express.Router();
+    const router = express.Router();
 
-  router.post('/', async (req, res) => {
-    const { userId, stockSymbol, shares } = req.body;
+    // Add stock to portfolio
+    router.post('/', verifyToken, (req, res) => portfolioController.addStockToPortfolio(req, res));
 
-    // validate input
-    if (!userId || !stockSymbol || !shares || !purchasePrice || !purchaseDate) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
+    // Get portfolio for a specific user
+    router.get('/', verifyToken, (req, res) => portfolioController.getUserPortfolio(req, res));
 
-    try {
-      await pool.query(
-        'INSERT INTO portfolios (user_id, stock_symbol, shares, purchase_price, purchase_date)\
-         VALUES ($1, $2, $3, $4, $5)',
-        [userId, stockSymbol, shares, purchasePrice, purchaseDate]
-      );
-      res.status(201).json({ message: 'Stock added to portfolio' });
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  });
+    // Delete stock from portfolio
+    router.delete('/:stockSymbol', verifyToken, (req, res) => portfolioController.deleteStockFromPortfolio(req, res));
 
-  router.get('/:userId', async (req, res) => {
-    const { userId } = req.params;
-
-    try {
-      const result = await pool.query(
-        'SELECT stock_symbol, shares, purchase_price, purchase_date\
-        FROM portfolios WHERE user_id = $1',
-        [userId]
-      );
-      res.json(result.rows);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  });
-
-  return router;
+    return router;
 };

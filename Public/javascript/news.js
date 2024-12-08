@@ -2,6 +2,15 @@ const apiKey = 'zuc9hftGHcs7gtlHaKpInxqQvkdRTEeT2e97mncO';
 const endpoint = `https://api.marketaux.com/v1/news/all?api_token=${apiKey}&filter_entities=true&countries=us&limit=20`;
 
 async function fetchNews() {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("User token not found");
+      window.location.href = "/login"; // Redirect to login if no token
+      return;
+    }
+
     try {
         const response = await fetch(endpoint);
         const data = await response.json();
@@ -21,3 +30,11 @@ async function fetchNews() {
 }
 
 fetchNews();
+
+function logout() {
+    // Perform any logout cleanup if needed (e.g., clearing localStorage)
+    localStorage.clear();
+  
+    // Redirect to the login page
+    window.location.href = "/login";
+  }

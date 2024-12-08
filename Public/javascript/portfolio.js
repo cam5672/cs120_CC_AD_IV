@@ -7,21 +7,34 @@ let watchlist = [];
 
 // Load Portfolio on Page Load
 async function loadPortfolio() {
-  const userId = localStorage.getItem("userId"); // retrieve user ID
-  
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+      console.error("User token not found");
+      window.location.href = "/login"; // Redirect to login if no token
+      return;
+  }
+
   try {
-    const response = await fetch(`http://localhost:3000/portfolio/${userId}`);
-    if (response.ok) {
-      portfolio = await response.json(); // populate portfolio with saved data
-      updatePortfolioTable();
-      updatePortfolioSummary();
-    } else {
-      console.error("Failed to fetch portfolio data");
-    }
+      const response = await fetch('http://localhost:3000/portfolio', {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
+
+      if (response.ok) {
+          portfolio = await response.json();
+          updatePortfolioTable();
+          updatePortfolioSummary();
+      } else {
+          const errorText = await response.text();
+          console.error("Failed to fetch portfolio data:", errorText);
+      }
   } catch (error) {
-    console.error("Error loading portfolio:", error);
+      console.error("Error loading portfolio:", error);
   }
 }
+
 
 // Show Add Stock Form
 function showAddStockForm() {
@@ -63,20 +76,26 @@ async function autofillStockDetails() {
   const stockData = await fetchStockData(symbol);
   if (stockData) {
     priceInput.value = stockData.close ? stockData.close.toFixed(2) : "";
-    document.getElementById("dailyChangeInfo").textContent =
-      `Daily Change: ${stockData.change ? stockData.change.toFixed(2) : "N/A"}%`;
   } else {
     alert("Stock symbol not found.");
   }
 }
 
 // Buy Stock and Add to Portfolio
-function buyStock() {
+async function buyStock() {
+
+  const token = localStorage.getItem("token"); // Retrieve token
+  if (!token) {
+    console.error("User not authenticated: Token missing.");
+    alert("Please log in to add stocks.");
+    return;
+  }
+
   const symbol = document.getElementById("stockSymbol").value.toUpperCase();
   const shares = parseInt(document.getElementById("shares").value, 10);
   const price = parseFloat(document.getElementById("purchasePrice").value);
   const purchaseDate = document.getElementById("purchaseDate").value;
-  const userId = localStorage.getItem("userId"); // retrieve user ID
+  const userId = localStorage.getItem("token"); // retrieve user ID
 
   // validate input
   if (!symbol || !shares || !price || !purchaseDate) {
@@ -86,17 +105,18 @@ function buyStock() {
 
   // send stock data to back end
   try {
-    const response = await fetch("http://localhost:3000/portfolio", {
+    const response =  fetch("http://localhost:3000/portfolio", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, stockSymbol: symbol, shares, purchasePrice: price, purchaseDate }),
+      headers: { "Content-Type": "application/json", 
+        Authorization: `Bearer ${token}`, },
+      body: JSON.stringify({stockSymbol: symbol, shares, purchasePrice: price, purchaseDate }),
     });
 
     if (response.ok) {
       alert("Stock added to your portfolio!");
       loadPortfolio(); // reload portfolio table after saving to backend
     } else {
-      const result = await response.json();
+      const result =  await response.json;
       alert(result.error || "Failed to add stock.");
     }
   } catch (error) {
@@ -113,16 +133,24 @@ function buyStock() {
 }
 
 // Sell Stock from Portfolio
-function sellStock(symbol) {
-  const index = portfolio.findIndex(stock => stock.stockSymbol === symbol);
-  if (index === -1) {
-    alert("Stock not found in portfolio.");
-    return;
-  }
+async function sellStock(symbol) {
+  const userId = localStorage.getItem("userId");
+  try {
+    const response = await fetch(`http://localhost:3000/portfolio/${userId}/${symbol}`, {
+      method: "DELETE",
+    });
 
-  portfolio.splice(index, 1);
-  updatePortfolioTable();
-  updatePortfolioSummary();
+    if (response.ok) {
+      alert("Stock removed from portfolio!");
+      loadPortfolio();
+    } else {
+      const result = await response.json();
+      alert(result.error || "Failed to remove stock.");
+    }
+  } catch (error) {
+    console.error("Error removing stock:", error);
+    alert("An error occurred. Please try again later.");
+  }
 }
 
 async function autofillWatchlistDetails() {
