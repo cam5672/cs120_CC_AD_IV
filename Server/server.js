@@ -37,8 +37,8 @@ app.use(express.static(path.join(__dirname, '../Public')));
 
 // API Routes with `/api` Prefix
 app.use('/users', userRoutes(pool));
-app.use('/portfolio', portfolioRoutes(pool));
-app.use('/notifications', alertRoutes(pool));
+app.use('/api/portfolio', portfolioRoutes(pool));
+app.use('/api/notifications', alertRoutes(pool));
 
 // Routes for HTML Pages
 app.get('/home', (req, res) => res.sendFile(path.join(__dirname, '../Public/html/home.html')));

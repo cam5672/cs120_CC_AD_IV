@@ -29,7 +29,7 @@ function loadMarketOverview() {
     return;
   }
 
-  const symbols = "INX.INDX,NDX.INDX,DJI.INDX"; // Corrected symbols for indices
+  const symbols = "NDX.INDX,DJI.INDX"; // Corrected symbols for indices
   fetch(`${MARKETSTACK_API_URL}/eod?access_key=${MARKETSTACK_API_KEY}&symbols=${symbols}&limit=30`)
     .then(response => {
       if (!response.ok) throw new Error(`Error fetching indices (${response.status})`);
@@ -51,7 +51,7 @@ function loadMarketOverview() {
 }
 
 function displayIndices(groupedData) {
-  plotIndexGraph(groupedData["INX.INDX"], "SPX-chart", "S&P 500");
+  
   plotIndexGraph(groupedData["NDX.INDX"], "NDX-chart", "NASDAQ 100");
   plotIndexGraph(groupedData["DJI.INDX"], "DJI-chart", "Dow Jones");
 }
@@ -140,8 +140,8 @@ function displayTrendingStocks(stocks) {
   tableBody.innerHTML = ""; // Clear previous data
 
   stocks.forEach(stock => {
-    const { symbol, close, change } = stock;
-    const changePercentage = change && close ? ((change / close) * 100).toFixed(2) : "N/A";
+    const { symbol, close, open } = stock;
+    const changePercentage = open && close ? (((close - open) / open )*100).toFixed(2) : "N/A";
 
     // Create a row for the table
     const row = document.createElement("tr");

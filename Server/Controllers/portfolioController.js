@@ -1,5 +1,5 @@
 exports.getUserPortfolio = async (req, res) => {
-    const userId = req.userId; // Retrieved from authMiddleware
+    const id = req.id; // Retrieved from authMiddleware
     const { Pool } = require('pg');
     const pool = new Pool({
         connectionString: process.env.DATABASE_URL,
@@ -7,7 +7,7 @@ exports.getUserPortfolio = async (req, res) => {
     });
 
     try {
-        const result = await pool.query('SELECT * FROM portfolios WHERE user_id = $1', [userId]);
+        const result = await pool.query('SELECT * FROM portfolios WHERE id = $1', [id]);
         res.status(200).json(result.rows);
     } catch (err) {
         console.error('Error fetching portfolio:', err);
@@ -16,8 +16,8 @@ exports.getUserPortfolio = async (req, res) => {
 };
 
 exports.addStockToPortfolio = async (req, res) => {
-    const userId = req.userId;
-    const { stockSymbol, shares, purchasePrice, purchaseDate } = req.body;
+    
+    const {stockSymbol, shares, purchasePrice, purchaseDate } = req.body;
 
     if (!stockSymbol || !shares || !purchasePrice || !purchaseDate) {
         return res.status(400).json({ error: "All fields are required." });
@@ -31,8 +31,8 @@ exports.addStockToPortfolio = async (req, res) => {
 
     try {
         await pool.query(
-            'INSERT INTO portfolios (user_id, stock_symbol, shares, purchase_price, purchase_date, created_at) VALUES ($1, $2, $3, $4, $5, NOW())',
-            [userId, stockSymbol, shares, purchasePrice, purchaseDate]
+            'INSERT INTO portfolios (stock_symbol, shares, purchase_price, purchase_date) VALUES ($1, $2, $3, $4)',
+            [stockSymbol, shares, purchasePrice, purchaseDate]
         );
         res.status(201).json({ message: 'Stock added to portfolio successfully' });
     } catch (err) {
@@ -42,8 +42,8 @@ exports.addStockToPortfolio = async (req, res) => {
 };
 
 exports.deleteStockFromPortfolio = async (req, res) => {
-    const userId = req.userId;
-    const { stockSymbol } = req.params;
+  
+    const { id,stockSymbol } = req.params;
 
     const { Pool } = require('pg');
     const pool = new Pool({
@@ -52,7 +52,7 @@ exports.deleteStockFromPortfolio = async (req, res) => {
     });
 
     try {
-        await pool.query('DELETE FROM portfolios WHERE user_id = $1 AND stock_symbol = $2', [userId, stockSymbol]);
+        await pool.query('DELETE FROM portfolios WHERE id = $1 AND stock_symbol = $2', [id, stockSymbol]);
         res.status(200).json({ message: 'Stock removed from portfolio' });
     } catch (err) {
         console.error('Error deleting stock:', err);

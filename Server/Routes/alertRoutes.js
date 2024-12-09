@@ -5,11 +5,11 @@ module.exports = (pool) => {
 
   // Get all alerts for a user
   router.get('/', async (req, res) => {
-    const userId = req.userId; // Extracted from middleware
+    const id = req.id; // Retrieved from authMiddleware
     try {
       const result = await pool.query(
-        'SELECT * FROM alerts WHERE user_id = $1',
-        [userId]
+        'SELECT * FROM alerts WHERE id = $1',
+        [id]
       );
       res.status(200).json(result.rows);
     } catch (err) {
@@ -20,12 +20,12 @@ module.exports = (pool) => {
 
   // Create a new alert
   router.post('/', async (req, res) => {
-    const { userId, alertName, stocksIncluded, percentOrNominal, valuationPeriod, notificationMethod } = req.body;
+    const { alertName, stocksIncluded, percentOrNominal, valuationPeriod, notificationMethod } = req.body;
     try {
       await pool.query(
-        `INSERT INTO alerts (user_id, alert_name, stocks_included, percent_or_nominal, valuation_period, notification_method)
-         VALUES ($1, $2, $3, $4, $5, $6)`,
-        [userId, alertName, stocksIncluded, percentOrNominal, valuationPeriod, notificationMethod]
+        `INSERT INTO alerts (alert_name, stocks_included, percent_or_nominal, valuation_period, notification_method)
+         VALUES ($1, $2, $3, $4, $5)`,
+        [alertName, stocksIncluded, percentOrNominal, valuationPeriod, notificationMethod]
       );
       res.status(201).json({ message: 'Alert created successfully' });
     } catch (err) {

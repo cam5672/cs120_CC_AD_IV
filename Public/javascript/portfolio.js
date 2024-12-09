@@ -1,6 +1,12 @@
 const MARKETSTACK_API_URL = "http://api.marketstack.com/v1";
 const MARKETSTACK_API_KEY = "0aa852cdf23d812cc3ba6ca1560b2b3a";
 
+/*const { Pool } = require('pg');
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+});
+*/
 // Portfolio and Watchlist Data
 let portfolio = [];
 let watchlist = [];
@@ -16,7 +22,7 @@ async function loadPortfolio() {
   }
 
   try {
-      const response = await fetch('http://localhost:3000/portfolio', {
+      const response = await fetch('http://localhost:3000/api/portfolio', {
           headers: {
               Authorization: `Bearer ${token}`,
           },
@@ -24,7 +30,7 @@ async function loadPortfolio() {
 
       if (response.ok) {
           portfolio = await response.json();
-          updatePortfolioTable();
+          await updatePortfolioTable();
           updatePortfolioSummary();
       } else {
           const errorText = await response.text();
@@ -95,7 +101,7 @@ async function buyStock() {
   const shares = parseInt(document.getElementById("shares").value, 10);
   const price = parseFloat(document.getElementById("purchasePrice").value);
   const purchaseDate = document.getElementById("purchaseDate").value;
-  const userId = localStorage.getItem("token"); // retrieve user ID
+  
 
   // validate input
   if (!symbol || !shares || !price || !purchaseDate) {
@@ -105,7 +111,7 @@ async function buyStock() {
 
   // send stock data to back end
   try {
-    const response =  fetch("http://localhost:3000/portfolio", {
+    const response =  await fetch('http://localhost:3000/api/portfolio', {
       method: "POST",
       headers: { "Content-Type": "application/json", 
         Authorization: `Bearer ${token}`, },
@@ -114,9 +120,12 @@ async function buyStock() {
 
     if (response.ok) {
       alert("Stock added to your portfolio!");
+      portfolio.push({ stockSymbol: symbol, shares, purchasePrice: price, purchaseDate });
+      updatePortfolioTable();
+      updatePortfolioSummary();
       loadPortfolio(); // reload portfolio table after saving to backend
     } else {
-      const result =  await response.json;
+      const result =  await response.json();
       alert(result.error || "Failed to add stock.");
     }
   } catch (error) {
@@ -125,32 +134,25 @@ async function buyStock() {
   }
 
   
-  /* prev local storage code
-  portfolio.push({ stockSymbol: symbol, shares, purchasePrice: price, purchaseDate });
-  updatePortfolioTable();
-  updatePortfolioSummary();
-  */
+  
+  
+  
 }
 
 // Sell Stock from Portfolio
 async function sellStock(symbol) {
-  const userId = localStorage.getItem("userId");
-  try {
-    const response = await fetch(`http://localhost:3000/portfolio/${userId}/${symbol}`, {
-      method: "DELETE",
-    });
-
-    if (response.ok) {
-      alert("Stock removed from portfolio!");
-      loadPortfolio();
-    } else {
-      const result = await response.json();
-      alert(result.error || "Failed to remove stock.");
+ 
+  
+    const index = portfolio.findIndex(stock => stock.stockSymbol === symbol);
+    if (index === -1) {
+      alert("Stock not found in portfolio.");
+      return;
     }
-  } catch (error) {
-    console.error("Error removing stock:", error);
-    alert("An error occurred. Please try again later.");
-  }
+  
+    portfolio.splice(index, 1);
+    updatePortfolioTable();
+    updatePortfolioSummary();
+
 }
 
 async function autofillWatchlistDetails() {
@@ -162,7 +164,9 @@ async function autofillWatchlistDetails() {
   
     const stockData = await fetchStockData(symbol);
     if (stockData) {
-      dailyChangeSpan.textContent = `Daily Change: ${stockData.change.toFixed(2)}%`;
+      dailyChangeSpan.textContent = `Daily Change: ${stockData.change}%`;
+      
+        
     } else {
       alert("Stock symbol not found.");
       dailyChangeSpan.textContent = "Daily Change: N/A";
@@ -174,6 +178,7 @@ async function autofillWatchlistDetails() {
 async function addToWatchlist() {
   const symbol = document.getElementById("watchlistSymbol").value.toUpperCase();
   const stockData = await fetchStockData(symbol);
+  const changePercentage = stockData.open && stockData.close ? (((stockData.close - stockData.open) / stockData.open )*100).toFixed(2) : "N/A";
   if (stockData) {
     watchlist.push({
       stockSymbol: symbol,
@@ -244,8 +249,11 @@ async function updatePortfolioTable() {
       </td>
     `;
     tableBody.appendChild(row);
+    console.log(stock.stockSymbol);
   }
 }
+
+
 
 // Update Portfolio Summary
 function updatePortfolioSummary() {

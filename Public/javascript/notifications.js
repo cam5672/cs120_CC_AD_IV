@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/notifications'; // Adjust based on your local server setup
+const API_URL = 'http://localhost:3000/api/notifications'; // Adjust based on your local server setup
 
 // Load Alerts
 async function loadAlerts() {
